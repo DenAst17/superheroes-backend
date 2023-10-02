@@ -5,9 +5,9 @@ import SuperheroService from '../services/superhero.service';
 import { Superhero } from '../entities/superhero.entity';
 
 export class SuperheroController {
-  constructor(private superheroService: SuperheroService) {}
+  constructor(private superheroService: SuperheroService) { }
 
-  async getAll(_: Request, res: Response) {
+  async getAll(req: Request, res: Response) {
     const result = await this.superheroService.getAll();
     if (result != null) {
       res.send(result);
@@ -65,6 +65,15 @@ export class SuperheroController {
     superhero.superpowers = req.body.superpowers;
     superhero.catch_phrase = req.body.catch_phrase;
     superhero.images = [];
+    const newImages = (req.files as Express.Multer.File[]).map((file) => {
+      return file.filename;
+    });
+    console.log(newImages);
+    newImages.forEach(image => {
+      console.log(image);
+      superhero.images.push(image);
+    });
+    console.log(superhero);
     const result = await this.superheroService.update(parseInt(SuperheroID, 10), superhero);
     if (result) {
       res.json({ message: `Updated superhero id = ${result}` });

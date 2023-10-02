@@ -2,13 +2,17 @@
 
 import { Superhero } from '../entities/superhero.entity';
 import { AppDataSource } from '../config/database';
+import fs from 'fs';
+import path from 'path';
 
 export default class SuperheroService {
   repository = AppDataSource.getRepository(Superhero);
 
   async getAll() {
+    console.log(1);
     try {
       const allSuperheros = await this.repository.find();
+      console.log(allSuperheros)
       return allSuperheros;
     } catch (err) {
       console.error(err);
@@ -34,6 +38,15 @@ export default class SuperheroService {
     if (!foundSuperhero) {
       return null;
     }
+    try {
+      foundSuperhero.images.forEach(image => {
+        console.log(path.resolve(__dirname, "../../images") + '/' + image);
+        fs.unlink(path.resolve(__dirname, "../../images") + '/' + image, (err) => {});
+      })
+    }
+    finally {
+
+    }
     await AppDataSource.createQueryBuilder()
       .delete()
       .from(Superhero)
@@ -48,7 +61,7 @@ export default class SuperheroService {
     superheroToUpdate.origin_description = superhero.origin_description;
     superheroToUpdate.superpowers = superhero.superpowers;
     superheroToUpdate.catch_phrase = superhero.catch_phrase;
-    superheroToUpdate.images = [];
+    superheroToUpdate.images.push(...superhero.images);
   }
 
   async update(superheroID: number, superhero: Superhero) {

@@ -21,7 +21,7 @@ superheroRouter.get(
 superheroRouter.post(
     '',
     uploadFiles(),
-    tryCatch(superheroController.createOne.bind(superheroController))
+    superheroController.createOne.bind(superheroController)
 );
 superheroRouter.delete(
     '/:id', 
@@ -31,6 +31,7 @@ superheroRouter.delete(
 superheroRouter.put(
     '/:id',
     isExist(Superhero), 
+    uploadFiles(),
     tryCatch(superheroController.updateOne.bind(superheroController))
 );
 

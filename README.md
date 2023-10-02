@@ -1,13 +1,21 @@
-# Superheroes backend application using Postgres database
+# Superheroes backend application
+
+Stack: Node.JS Express + TypeORM + Postgres
+Testing: Jest
+
+Project uses Postgres database
+Static files are stored in images/ directory, DB has only their names
 
 ## TO RUN PROJECT USE
 
-1. `npm install -g yarn`
-2. `yarn`
-3. `yarn start`
+npm run start
 
-Finally, navigate to `http://localhost:4200/` and you should see the API running!
+## TO TEST PROJECT USE
 
-if yarn start does not work, run this first:
+npm run test
+(project must be already running)
 
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+## API
+
+localhost:4200/api/superheroes - Main
+localhost:4200/images - Static images
